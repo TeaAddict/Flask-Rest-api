@@ -12,9 +12,6 @@ class StoreModel(db.Model):
 
     tags = db.relationship("TagModel", back_populates="store")
 
-    def as_dict(self):
-        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
-
 
 
 
