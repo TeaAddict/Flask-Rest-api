@@ -22,7 +22,7 @@ def create_app(db_url=None):
     load_dotenv()
 
     app.config["PROPAGATE_EXCEPTIONS"] = True
-    app.config["API_TITLE"] = "Stores REST API"
+    app.config["API_TITLE"] = "My REST API"
     app.config["API_VERSION"] = "v1"
     app.config["OPENAPI_VERSION"] = "3.0.3"
     app.config["OPENAPI_URL_PREFIX"] = "/"
@@ -42,7 +42,7 @@ def create_app(db_url=None):
     app.config["JWT_SECRET_KEY"] = "deivioapi"
     jwt = JWTManager(app)
 
-    # checks JWT in blocklist if its bad(user logout)
+    # checks JWT in blocklist if its bad(user logged out)
     @jwt.token_in_blocklist_loader
     def check_if_token_in_blocklist(jwt_header, jwt_payload):
         return jwt_payload["jti"] in BLOCKLIST
