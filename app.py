@@ -3,7 +3,7 @@ import os
 import secrets
 
 from flask_smorest import Api
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from dotenv import load_dotenv
@@ -67,12 +67,30 @@ def create_app(db_url=None):
     def missing_token_callback(error):
         return jsonify({"description": "Request does not contain an access token.", "error": "authorization_required"}), 401
 
-    # with app.app_context():
-    #     db.create_all()
-
     api.register_blueprint(StoreBlueprint)
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(TagBlueprint)
     api.register_blueprint(UserBlueprint)
+
+    @app.route("/")
+    @app.route("/home")
+    def index():
+        return render_template("index.html")
+
+    @app.route("/login")
+    def login():
+        return render_template("login.html")
+
+    @app.route("/register")
+    def register():
+        return render_template("register.html")
+
+    @app.route("/pricing")
+    def pricing():
+        return render_template("pricing.html")
+
+    @app.route("/account")
+    def account():
+        return render_template("account.html")
 
     return app

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}Account page{% endblock %}
+
+{% block h1 %}Account{% endblock %}
+
+{% block content %}
+
+<p>Username: {% if "user" in session: %} {{session["user"]}} {% endif %}</p>
+    
+
+{% endblock %}
+
+
+

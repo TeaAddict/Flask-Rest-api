@@ -9,13 +9,16 @@ from models import UserModel
 from schemas import UserSchema
 
 
-blp = Blueprint("Users", "users", description="Operations on users")
+blp = Blueprint("Users", "users", url_prefix="/users", description="Operations on users")
 
 
-@blp.route("/register")
+@blp.route("/register", methods=["POST"])
 class UserRegister(MethodView):
     @blp.arguments(UserSchema)
     def post(self, user_data):
+
+        print(user_data)
+
         if UserModel.query.filter(UserModel.username == user_data["username"]).first():
             abort(409, message="A user with that username already exists.")
 
@@ -27,6 +30,13 @@ class UserRegister(MethodView):
         db.session.commit()
 
         return {"message": "User created successfully."}, 201
+
+
+@blp.route("/register2")
+class UserRegister(MethodView):
+    @blp.arguments(UserSchema)
+    def post(self, user_data):
+        return user_data
 
 
 @blp.route("/login")
