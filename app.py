@@ -9,12 +9,15 @@ from flask_migrate import Migrate
 from dotenv import load_dotenv
 
 from db import db
+from cache import cache
+
 from blocklist import BLOCKLIST
 
 from resources.item import blp as ItemBlueprint
 from resources.store import blp as StoreBlueprint
 from resources.tag import blp as TagBlueprint
 from resources.user import blp as UserBlueprint
+from resources.parent_child import blp as ParentChildBlueprint
 
 
 def create_app(db_url=None):
@@ -34,6 +37,7 @@ def create_app(db_url=None):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
+    cache.init_app(app)
 
     migrate = Migrate(app, db)
 
@@ -71,6 +75,7 @@ def create_app(db_url=None):
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(TagBlueprint)
     api.register_blueprint(UserBlueprint)
+    api.register_blueprint(ParentChildBlueprint)
 
     @app.route("/")
     @app.route("/home")

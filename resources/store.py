@@ -5,6 +5,7 @@ from schemas import StoreSchema
 from flask_smorest import Blueprint, abort
 from sqlalchemy.exc import SQLAlchemyError
 from db import db
+
 from models import StoreModel
 
 blp = Blueprint("store", __name__, description="Operations on store.")
@@ -14,6 +15,7 @@ blp = Blueprint("store", __name__, description="Operations on store.")
 class Store(MethodView):
 
     @blp.response(200, StoreSchema(many=True))
+    #@cache.cached(timeout=10)
     def get(self):
         store = StoreModel.query.all()
         return store
@@ -53,10 +55,4 @@ class StoreId(MethodView):
             return store
         except SQLAlchemyError:
             abort(400, message="Problem deleting store")
-
-
-
-
-
-
 

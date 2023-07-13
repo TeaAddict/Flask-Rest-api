@@ -54,11 +54,22 @@ class UserSchema(Schema):
     password = fields.Str(required=True, load_only=True)
 
 
+class PlainChildSchema(Schema):
+    id = fields.Int(dump_only=True)
+    name = fields.Str(required=True)
 
 
+class PlainParentSchema(Schema):
+    id = fields.Int(dump_only=True)
+    name = fields.Str(required=True)
 
 
+class ParentSchema(PlainParentSchema):
+    children = fields.List(fields.Nested(PlainChildSchema()), dump_only=True)
 
+
+class ChildSchema(PlainChildSchema):
+    parent = fields.Nested(PlainParentSchema(), dump_only=True)
 
 
 
